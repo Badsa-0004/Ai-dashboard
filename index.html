@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JARVIS OS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#020403;
+    --panel:#07110d;
+    --green:#00ff88;
+    --green2:#00a36c;
+    --dim:#335544;
+    --border:rgba(0,255,136,.25);
+}
+
+body{
+    overflow:hidden;
+    background:black;
+    font-family:'Orbitron',sans-serif;
+    color:var(--green);
+}
+
+/* ================= MAIN APP ================= */
+
+.dashboard{
+    width:100vw;
+    height:100vh;
+    background:
+    radial-gradient(circle at center, rgba(0,255,136,.06), transparent 35%),
+    linear-gradient(to bottom,#010101,#020403);
+    display:flex;
+    flex-direction:column;
+}
+
+/* ================= HEADER ================= */
+
+.topbar{
+    height:5vh;
+    border-bottom:1px solid rgba(0,255,136,.15);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(8px);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-circle{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:2px solid var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+.logo h1{
+    font-size:16px;
+    letter-spacing:2px;
+}
+
+.online{
+    color:#8affc4;
+    font-size:11px;
+}
+
+.nav{
+    display:flex;
+    gap:28px;
+    font-size:12px;
+}
+
+.nav div{
+    cursor:pointer;
+    transition:.3s;
+}
+
+.nav div:hover{
+    color:white;
+    text-shadow:0 0 15px var(--green);
+}
+
+.right-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    font-size:11px;
+}
+
+/* ================= MAIN GRID ================= */
+
+.main{
+    height:90vh;
+    display:grid;
+    grid-template-columns:20% 60% 20%;
+    gap:15px;
+    padding:15px;
+}
+
+/* ================= COMMON PANEL ================= */
+
+.panel{
+    background:linear-gradient(to bottom,#07110d,#040907);
+    border:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
+    clip-path:polygon(
+        0 0,
+        95% 0,
+        100% 10%,
+        100% 100%,
+        5% 100%,
+        0 90%
+    );
+    box-shadow:
+    inset 0 0 20px rgba(0,255,136,.08),
+    0 0 15px rgba(0,255,136,.08);
+}
+
+.panel::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        135deg,
+        transparent,
+        rgba(0,255,136,.03),
+        transparent
+    );
+    pointer-events:none;
+}
+
+.panel-title{
+    padding:14px;
+    font-size:13px;
+    border-bottom:1px solid rgba(0,255,136,.08);
+    letter-spacing:1px;
+}
+
+/* ================= LEFT COLUMN ================= */
+
+.left-column{
+    display:grid;
+    grid-template-rows:
+    18%
+    18%
+    16%
+    20%
+    28%;
+    gap:15px;
+}
+
+.metric{
+    padding:10px 14px;
+}
+
+.metric-row{
+    margin-top:10px;
+}
+
+.metric-row span{
+    font-size:11px;
+}
+
+.bar{
+    height:5px;
+    background:#12261d;
+    margin-top:6px;
+    position:relative;
+    overflow:hidden;
+}
+
+.bar::after{
+    content:'';
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:70%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+.brain{
+    width:100%;
+    height:110px;
+    background:
+    radial-gradient(circle,rgba(0,255,136,.5),transparent 60%);
+    position:relative;
+    animation:rotateBrain 12s linear infinite;
+}
+
+@keyframes rotateBrain{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.memory-circle{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:4px solid rgba(0,255,136,.2);
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 20px rgba(0,255,136,.3);
+    position:relative;
+}
+
+.memory-circle::before{
+    content:'';
+    position:absolute;
+    inset:8px;
+    border-radius:50%;
+    border:3px solid var(--green);
+}
+
+.memory-circle span{
+    font-size:20px;
+}
+
+.world-map{
+    width:100%;
+    height:100px;
+    background:url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg');
+    background-size:cover;
+    background-position:center;
+    filter:hue-rotate(80deg) brightness(.7);
+    opacity:.8;
+}
+
+.feed{
+    padding:10px 14px;
+    font-size:10px;
+    line-height:20px;
+    overflow:hidden;
+}
+
+/* ================= CENTER HUB ================= */
+
+.center-column{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.center-top{
+    height:10%;
+    padding:15px;
+}
+
+.center-top h2{
+    font-size:28px;
+    color:var(--green);
+    text-shadow:0 0 15px var(--green);
+}
+
+.center-top p{
+    margin-top:5px;
+    font-size:13px;
+    color:#8affc4;
+}
+
+.core{
+    flex:1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.ring-container{
+    width:650px;
+    height:650px;
+    position:relative;
+}
+
+.ring{
+    position:absolute;
+    border-radius:50%;
+    border:2px solid rgba(0,255,136,.25);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.r1{
+    width:550px;
+    height:550px;
+    animation:spin 30s linear infinite;
+}
+
+.r2{
+    width:450px;
+    height:450px;
+    border-style:dashed;
+    animation:spinReverse 20s linear infinite;
+}
+
+.r3{
+    width:330px;
+    height:330px;
+    animation:spin 10s linear infinite;
+}
+
+.r4{
+    width:180px;
+    height:180px;
+    border-width:6px;
+    box-shadow:0 0 30px var(--green);
+}
+
+.core-center{
+    position:absolute;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:radial-gradient(circle,var(--green),#006644);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 40px var(--green);
+}
+
+@keyframes spin{
+    from{
+        transform:translate(-50%,-50%) rotate(0deg);
+    }
+    to{
+        transform:translate(-50%,-50%) rotate(360deg);
+    }
+}
+
+@keyframes spinReverse{
+    from{
+        transform:translate(-50%,-50%) rotate(360deg);
+    }
+    to{
+        transform:translate(-50%,-50%) rotate(0deg);
+    }
+}
+
+.hud-text{
+    position:absolute;
+    font-size:12px;
+    color:#8affc4;
+}
+
+.h1{top:18%;left:15%;}
+.h2{top:20%;right:18%;}
+.h3{bottom:22%;left:16%;}
+.h4{bottom:20%;right:16%;}
+
+.input-panel{
+    height:20%;
+    padding:20px;
+}
+
+.command-box{
+    height:100%;
+    border:1px solid rgba(0,255,136,.2);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+.command-box h3{
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.wave{
+    width:70%;
+    height:2px;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+    position:relative;
+    overflow:hidden;
+}
+
+.wave::after{
+    content:'';
+    position:absolute;
+    width:120px;
+    height:100%;
+    background:white;
+    filter:blur(3px);
+    animation:waveMove 2s linear infinite;
+}
+
+@keyframes waveMove{
+    from{left:-100px;}
+    to{left:100%;}
+}
+
+.mic{
+    position:absolute;
+    bottom:-28px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#021f14;
+    border:2px solid var(--green);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    box-shadow:0 0 20px var(--green);
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{box-shadow:0 0 10px var(--green);}
+    50%{box-shadow:0 0 30px var(--green);}
+    100%{box-shadow:0 0 10px var(--green);}
+}
+
+.actions{
+    margin-top:25px;
+    display:flex;
+    gap:25px;
+    font-size:11px;
+}
+
+/* ================= RIGHT COLUMN ================= */
+
+.right-column{
+    display:grid;
+    grid-template-rows:
+    28%
+    10%
+    16%
+    14%
+    32%;
+    gap:15px;
+}
+
+.weather-main{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    padding-top:20px;
+}
+
+.temp{
+    font-size:52px;
+}
+
+.forecast{
+    display:flex;
+    justify-content:space-around;
+    margin-top:18px;
+    font-size:10px;
+}
+
+.jobs{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    height:100%;
+}
+
+.quick-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    padding:12px;
+}
+
+.quick-btn{
+    border:1px solid rgba(0,255,136,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    padding:10px;
+    transition:.3s;
+}
+
+.quick-btn:hover{
+    background:rgba(0,255,136,.08);
+    box-shadow:0 0 15px var(--green);
+}
+
+.shortcuts{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    padding:10px;
+    font-size:10px;
+    text-align:center;
+}
+
+.terminal{
+    padding:15px;
+    font-size:11px;
+    line-height:20px;
+    overflow:hidden;
+}
+
+.green{
+    color:#8affc4;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    height:5vh;
+    border-top:1px solid rgba(0,255,136,.15);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(0,0,0,.7);
+    font-size:11px;
+}
+
+.footer-center{
+    display:flex;
+    gap:30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="logo">
+            <div class="logo-circle"></div>
+            <div>
+                <h1>JARVIS OS</h1>
+                <div class="online">● ONLINE</div>
+            </div>
+        </div>
+
+        <div class="nav">
+            <div>HOME</div>
+            <div>SYSTEM</div>
+            <div>NETWORK</div>
+            <div>DATABASE</div>
+            <div>TERMINAL</div>
+        </div>
+
+        <div class="right-header">
+            <div>10:42:31 PM</div>
+            <div>MAY 20, 2025</div>
+            <div>⚙</div>
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- LEFT -->
+
+        <div class="left-column">
+
+            <div class="panel">
+                <div class="panel-title">SYSTEM STATUS</div>
+
+                <div class="metric">
+                    <div class="metric-row">
+                        <span>CPU 23%</span>
+                        <div class="bar"></div>
+                    </div>
+
+                    <div class="metric-row">
+                        <span>RAM 41%</span>
+                        <div class="bar"></div>
+                    </div>
+
+                    <div class="metric-row">
+                        <span>GPU 37%</span>
+                        <div class="bar"></div>
+                    </div>
+
+                    <div class="metric-row">
+                        <span>NET 66%</span>
+                        <div class="bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">AI CORE STATUS</div>
+
+                <div class="brain"></div>
+
+                <div style="padding:10px;font-size:11px;line-height:18px;">
+                    AI MODEL : JARVIS GPT-4e<br>
+                    MODE : ACTIVE<br>
+                    THINKING LEVEL : 87%<br>
+                    RESPONSE SPEED : 1.2s
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">MEMORY BANK</div>
+
+                <div class="memory-circle">
+                    <span>62%</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">NETWORK STATUS</div>
+
+                <div class="world-map"></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">LIVE FEED</div>
+
+                <div class="feed">
+                    10:41 PM - System Update<br>
+                    10:40 PM - File Analyzed<br>
+                    10:39 PM - API Routed<br>
+                    10:35 PM - Command Executed<br>
+                    10:31 PM - User Login
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CENTER -->
+
+        <div class="center-column">
+
+            <div class="panel center-top">
+                <h2>GOOD EVENING, ANIKET</h2>
+                <p>How can I assist you today?</p>
+            </div>
+
+            <div class="panel core">
+
+                <div class="ring-container">
+
+                    <div class="ring r1"></div>
+                    <div class="ring r2"></div>
+                    <div class="ring r3"></div>
+                    <div class="ring r4"></div>
+
+                    <div class="core-center"></div>
+
+                </div>
+
+                <div class="hud-text h1">
+                    PROCESSOR<br>
+                    CORE #7
+                </div>
+
+                <div class="hud-text h2">
+                    POWER LEVEL<br>
+                    93%
+                </div>
+
+                <div class="hud-text h3">
+                    NEURAL PATHWAYS<br>
+                    ACTIVE
+                </div>
+
+                <div class="hud-text h4">
+                    TEMP<br>
+                    42°C
+                </div>
+
+            </div>
+
+            <div class="panel input-panel">
+
+                <div class="command-box">
+
+                    <h3>What shall we build today?</h3>
+
+                    <div class="wave"></div>
+
+                    <div class="actions">
+                        <div>Analyze Codebase</div>
+                        <div>Run Diagnostics</div>
+                        <div>Open Terminal</div>
+                        <div>Search The Web</div>
+                    </div>
+
+                    <div class="mic">🎤</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="right-column">
+
+            <div class="panel">
+                <div class="panel-title">WEATHER REPORT</div>
+
+                <div class="weather-main">
+                    <div style="font-size:55px;">🌧</div>
+
+                    <div>
+                        <div class="temp">24°C</div>
+                        <div>LIGHT RAIN</div>
+                    </div>
+                </div>
+
+                <div class="forecast">
+                    <div>TUE<br>24°</div>
+                    <div>WED<br>26°</div>
+                    <div>THU<br>27°</div>
+                    <div>FRI<br>29°</div>
+                    <div>SAT<br>30°</div>
+                </div>
+            </div>
+
+            <div class="panel jobs">
+                <div>3<br>RUNNING</div>
+                <div>2<br>SCHEDULED</div>
+                <div>5<br>COMPLETED</div>
+                <div>1<br>FAILED</div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">QUICK ACTIONS</div>
+
+                <div class="quick-grid">
+                    <div class="quick-btn">VOICE</div>
+                    <div class="quick-btn">STEALTH</div>
+                    <div class="quick-btn">CAMERA</div>
+                    <div class="quick-btn">FILES</div>
+                    <div class="quick-btn">TRAINER</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">SYSTEM SHORTCUTS</div>
+
+                <div class="shortcuts">
+                    <div>TERMINAL</div>
+                    <div>DATABASE</div>
+                    <div>NETWORK</div>
+                    <div>AUTOMATION</div>
+                    <div>SETTINGS</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">TERMINAL</div>
+
+                <div class="terminal">
+                    <span class="green">Initializing AI Core...</span><br>
+                    Loading Modules...<br>
+                    Connecting Neural Network...<br>
+                    Retrieving Data Streams...<br>
+                    Analyzing Context...<br>
+                    Processing User Request...<br>
+                    Executing Task...<br><br>
+
+                    jarvis@us-1 $
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <div>
+            JARVIS OS v2.7.1 | ALL SYSTEMS OPERATIONAL
+        </div>
+
+        <div class="footer-center">
+            <div>UPTIME 10d</div>
+            <div>POWER 93%</div>
+            <div>AI LOAD 67%</div>
+            <div>TEMP 42°C</div>
+            <div>FAN 1200 RPM</div>
+        </div>
+
+        <div>
+            📶 🔊 ⚡
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
